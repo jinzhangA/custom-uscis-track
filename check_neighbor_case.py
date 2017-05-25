@@ -168,10 +168,13 @@ def main():
 			final_result.append(get_result(i,prefix,args.verbose))
 
 	for i in final_result:
-		if 'Evidence' in i['Status'] and 'I-129' == i['Type']:
+		if 'Evidence' in i['Status'] and 'I-765' == i['Type']:
 			cnt_rfe+=1
-		if 'Approve' in i['Status'] and 'I-129' == i['Type']:
+		if 'Approve' in i['Status'] and 'I-765' == i['Type']:
 			cnt_approve+=1
+		if 'Card' in i['Status']:
+			cnt_approve+=1
+			
 	total_cnts = len(final_result)
 	final_result = sorted(final_result, key=lambda k: k['Number']) 
 
