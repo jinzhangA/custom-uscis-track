@@ -142,7 +142,7 @@ def main():
 	ns.df = final_result
 	cnt_approve = 0
 	cnt_rfe = 0
-
+	cnt_received = 0
 	start = case_numberic - args.batch
 	end = case_numberic + args.batch
 
@@ -168,14 +168,17 @@ def main():
 			final_result.append(get_result(i,prefix,args.verbose))
 
 	for i in final_result:
-		if 'Evidence' in i['Status'] and 'I-129' == i['Type']:
+		if 'Evidence' in i['Status']:
 			cnt_rfe+=1
-		if 'Approve' in i['Status'] and 'I-129' == i['Type']:
+		if 'Approve' in i['Status'] or 'Card' in i['Status']:
 			cnt_approve+=1
+		if 'Received' in i['Status']:
+			cnt_received += 1
+
 	total_cnts = len(final_result)
 	final_result = sorted(final_result, key=lambda k: k['Number']) 
 
-	result_cnt = 'Approved: %d, RFE: %d, Total: %d'%(cnt_approve,cnt_rfe,total_cnts)
+	result_cnt = 'Approved: %d, RFE: %d, Received: %d Total: %d'%(cnt_approve, cnt_rfe, cnt_received, total_cnts)
 	final_result.append(result_cnt)
 
 	json_type = json.dumps(final_result,indent=4)
